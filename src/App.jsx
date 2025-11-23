@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { ChevronRight, Moon, Sun } from 'lucide-react';
 
-  const BreakpointSection = ({ title, expanded, onToggle, disabled, onDisabledChange, showDisableCheckbox, children }) => (
-    <div className={`rounded-lg shadow-sm border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-      <div className="p-4 flex items-center justify-between">
-        <button onClick={onToggle} className={`flex items-center gap-2 flex-1 ${darkMode ? 'text-white' : ''}`}>
-          <ChevronRight className={`w-4 h-4 transition-transform ${expanded ? 'rotate-90' : ''}`} />
-          <span className="font-medium">{title}</span>
-        </button>
-        {showDisableCheckbox && (
-          <div className="flex items-center gap-2">
-            <input type="checkbox" id={`disable-${title.toLowerCase()}`} checked={disabled} onChange={(e) => onDisabledChange(e.target.checked)} className="rounded" />
-            <label htmlFor={`disable-${title.toLowerCase()}`} className={`text-sm ${darkMode ? 'text-gray-300' : ''}`}>
-              I don't need this breakpoint
-            </label>
-          </div>
-        )}
-      </div>
-      {expanded && <div className={`px-4 pb-4 border-t pt-4 ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>{children}</div>}
+const BreakpointSection = ({ title, expanded, onToggle, disabled, onDisabledChange, showDisableCheckbox, children, darkMode }) => (
+  <div className={`rounded-lg shadow-sm border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+    <div className="p-4 flex items-center justify-between">
+      <button onClick={onToggle} className={`flex items-center gap-2 flex-1 ${darkMode ? 'text-white' : ''}`}>
+        <ChevronRight className={`w-4 h-4 transition-transform ${expanded ? 'rotate-90' : ''}`} />
+        <span className="font-medium">{title}</span>
+      </button>
+      {showDisableCheckbox && (
+        <div className="flex items-center gap-2">
+          <input type="checkbox" id={`disable-${title.toLowerCase()}`} checked={disabled} onChange={(e) => onDisabledChange(e.target.checked)} className="rounded" />
+          <label htmlFor={`disable-${title.toLowerCase()}`} className={`text-sm ${darkMode ? 'text-gray-300' : ''}`}>
+            I don't need this breakpoint
+          </label>
+        </div>
+      )}
     </div>
-  );
-  
+    {expanded && <div className={`px-4 pb-4 border-t pt-4 ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>{children}</div>}
+  </div>
+);
+
 export default function App() {
   const [desktopExpanded, setDesktopExpanded] = useState(true);
   const [tabletExpanded, setTabletExpanded] = useState(false);
@@ -179,7 +179,7 @@ export default function App() {
     <div className={`min-h-screen p-8 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <BreakpointSection title="Desktop" expanded={desktopExpanded} onToggle={() => setDesktopExpanded(!desktopExpanded)} showDisableCheckbox={false}>
+          <BreakpointSection title="Desktop" expanded={desktopExpanded} onToggle={() => setDesktopExpanded(!desktopExpanded)} showDisableCheckbox={false} darkMode={darkMode}>
             <div className="space-y-6">
               <div>
                 <h3 className={`mb-4 font-medium text-sm ${darkMode ? 'text-white' : ''}`}>PROTOTYPE VALUES</h3>
@@ -273,7 +273,7 @@ export default function App() {
             </div>
           </BreakpointSection>
 
-          <BreakpointSection title="Tablet" expanded={tabletExpanded} onToggle={() => setTabletExpanded(!tabletExpanded)} disabled={tabletDisabled} onDisabledChange={setTabletDisabled} showDisableCheckbox={true}>
+          <BreakpointSection title="Tablet" expanded={tabletExpanded} onToggle={() => setTabletExpanded(!tabletExpanded)} disabled={tabletDisabled} onDisabledChange={setTabletDisabled} showDisableCheckbox={true} darkMode={darkMode}>
             <div className="space-y-6">
               <div>
                 <h3 className={`mb-4 font-medium text-sm ${darkMode ? 'text-white' : ''}`}>PROTOTYPE MAXIMUM VALUES</h3>
@@ -330,7 +330,7 @@ export default function App() {
             </div>
           </BreakpointSection>
 
-          <BreakpointSection title="Mobile" expanded={mobileExpanded} onToggle={() => setMobileExpanded(!mobileExpanded)} disabled={mobileDisabled} onDisabledChange={setMobileDisabled} showDisableCheckbox={true}>
+          <BreakpointSection title="Mobile" expanded={mobileExpanded} onToggle={() => setMobileExpanded(!mobileExpanded)} disabled={mobileDisabled} onDisabledChange={setMobileDisabled} showDisableCheckbox={true} darkMode={darkMode}>
             <div className="space-y-6">
               <div>
                 <h3 className={`mb-4 font-medium text-sm ${darkMode ? 'text-white' : ''}`}>PROTOTYPE MAXIMUM VALUES</h3>
