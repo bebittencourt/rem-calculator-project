@@ -1,6 +1,26 @@
 import { useState } from 'react';
 import { ChevronRight, Moon, Sun } from 'lucide-react';
 
+  const BreakpointSection = ({ title, expanded, onToggle, disabled, onDisabledChange, showDisableCheckbox, children }) => (
+    <div className={`rounded-lg shadow-sm border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+      <div className="p-4 flex items-center justify-between">
+        <button onClick={onToggle} className={`flex items-center gap-2 flex-1 ${darkMode ? 'text-white' : ''}`}>
+          <ChevronRight className={`w-4 h-4 transition-transform ${expanded ? 'rotate-90' : ''}`} />
+          <span className="font-medium">{title}</span>
+        </button>
+        {showDisableCheckbox && (
+          <div className="flex items-center gap-2">
+            <input type="checkbox" id={`disable-${title.toLowerCase()}`} checked={disabled} onChange={(e) => onDisabledChange(e.target.checked)} className="rounded" />
+            <label htmlFor={`disable-${title.toLowerCase()}`} className={`text-sm ${darkMode ? 'text-gray-300' : ''}`}>
+              I don't need this breakpoint
+            </label>
+          </div>
+        )}
+      </div>
+      {expanded && <div className={`px-4 pb-4 border-t pt-4 ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>{children}</div>}
+    </div>
+  );
+  
 export default function App() {
   const [desktopExpanded, setDesktopExpanded] = useState(true);
   const [tabletExpanded, setTabletExpanded] = useState(false);
@@ -154,26 +174,6 @@ export default function App() {
     lines.push('</style>');
     return lines.join('\n');
   };
-
-  const BreakpointSection = ({ title, expanded, onToggle, disabled, onDisabledChange, showDisableCheckbox, children }) => (
-    <div className={`rounded-lg shadow-sm border ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
-      <div className="p-4 flex items-center justify-between">
-        <button onClick={onToggle} className={`flex items-center gap-2 flex-1 ${darkMode ? 'text-white' : ''}`}>
-          <ChevronRight className={`w-4 h-4 transition-transform ${expanded ? 'rotate-90' : ''}`} />
-          <span className="font-medium">{title}</span>
-        </button>
-        {showDisableCheckbox && (
-          <div className="flex items-center gap-2">
-            <input type="checkbox" id={`disable-${title.toLowerCase()}`} checked={disabled} onChange={(e) => onDisabledChange(e.target.checked)} className="rounded" />
-            <label htmlFor={`disable-${title.toLowerCase()}`} className={`text-sm ${darkMode ? 'text-gray-300' : ''}`}>
-              I don't need this breakpoint
-            </label>
-          </div>
-        )}
-      </div>
-      {expanded && <div className={`px-4 pb-4 border-t pt-4 ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>{children}</div>}
-    </div>
-  );
 
   return (
     <div className={`min-h-screen p-8 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
